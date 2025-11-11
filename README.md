@@ -89,12 +89,12 @@ local function showLoginInfo(mode)
     local expDate = expireDate
     local header, message
 
-    if mode == "Permanent Code" then  
+if mode == "Permanent Code" then  
         header = "✅ Permanent Login Success"  
         message = string.format("%s\n\n📅 Login: %s\n🔑 Type: %s",
             header, now, mode)  
 
-    elseif mode == "Expired Code" then  
+elseif mode == "Expired Code" then  
         local daysLeft = getDaysLeft(expDate)  
         local leftText
         if daysLeft > 0 then
@@ -105,11 +105,11 @@ local function showLoginInfo(mode)
             leftText = string.format("❌ Expired %d day%s ago", math.abs(daysLeft), math.abs(daysLeft) ~= 1 and "s" or "")
         end
 
-        header = "✅ Expired Login Success"  
-        message = string.format("%s\n\n📅 Login: %s\n⏳ Expire Date: %s\n%s\n🔑 Type: %s (User %d)",
+header = "✅ Expired Login Success"  
+    message = string.format("%s\n\n📅 Login: %s\n⏳ Expire Date: %s\n%s\n🔑 Type: %s (User %d)",
             header, now, expDate, leftText, mode, expiredUserID)  
 
-        -- 🔔 Tambahan notifikasi otomatis sisa hari
+-- 🔔 Tambahan notifikasi otomatis sisa hari
         if daysLeft > 0 and daysLeft <= 3 then
             gg.toast("⚠️ Your access will expire in " .. daysLeft .. " day" .. (daysLeft ~= 1 and "s" or ""))
         elseif daysLeft == 0 then
@@ -119,7 +119,7 @@ local function showLoginInfo(mode)
         end
     end  
 
-    gg.alert(message)
+gg.alert(message)
 end
 
 -- 🔐 Status login
@@ -152,7 +152,7 @@ while not loginOK do
     if not input then gg.alert("❌ Cancelled") resetMode() os.exit() end
     local code = input[1]
 
-    if code == permanentCode then  
+if code == permanentCode then  
         if not isPermanentDeviceRegistered(expectedHash) then  
             local pfw = io.open(passFile, "a")  
             if pfw then pfw:write(expectedHash .. "\n") pfw:close() end  
@@ -161,7 +161,7 @@ while not loginOK do
         showLoginInfo("Permanent Code")  
         loginOK = true  
 
-    elseif code == expiredCode then  
+elseif code == expiredCode then  
         if isExpiredDate() then  
             local daysOver = math.abs(getDaysLeft(expireDate))
             gg.alert("⛔ Expired code expired on " .. expireDate ..
